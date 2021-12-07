@@ -42,4 +42,5 @@ jobs:
           # TODO: remove, only required for testing
           poetry config repositories.test-pypi https://test.pypi.org/legacy/
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
-          poetry publish --build
+          # TODO: remove -r test-pypi
+          poetry publish --build -r test-pypi
