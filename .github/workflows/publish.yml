@@ -20,15 +20,10 @@ jobs:
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
           poetry config virtualenvs.in-project false
           poetry install --no-interaction
-          which python
-          which poetry
           poetry env info
-          source `poetry env info --path`/bin/activate
-          which python
-          which poetry
       - name: Publish
         run: |
-          poetry-dynamic-versioning
+          poetry run poetry-dynamic-versioning
           # TODO: activate this
           # python -m poetry config pypi-token.pypi $PYPI_TOKEN
           # TODO: remove, only required for testing
