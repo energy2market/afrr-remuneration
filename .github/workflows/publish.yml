@@ -32,10 +32,6 @@ jobs:
       - name: Install Dependencies
         run: poetry install --no-interaction
       - name: Publish
-        env:
-          # TODO: use production pypi
-          # PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-          PYPI_TOKEN: ${{ secrets.TEST_PYPI_TOKEN }}
         run: |
           # TODO: activate this
           # python -m poetry config pypi-token.pypi $PYPI_TOKEN
