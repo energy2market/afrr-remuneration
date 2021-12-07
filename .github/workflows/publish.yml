@@ -19,7 +19,7 @@ jobs:
         run: |
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
       - name: Configure poetry
-        run: python -m poetry config virtualenvs.in-project true
+        run: poetry config virtualenvs.in-project true
       - name: Set up cache
         uses: actions/cache@v1
         id: cache
@@ -28,9 +28,9 @@ jobs:
           key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Ensure cache is healthy
         if: steps.cache.outputs.cache-hit == 'true'
-        run: python -m poetry run pip --version >/dev/null 2>&1 || rm -rf .venv
+        run: poetry run pip --version >/dev/null 2>&1 || rm -rf .venv
       - name: Install Dependencies
-        run: python -m poetry install
+        run: poetry install --no-interaction
       - name: Publish
         env:
           # TODO: use production pypi
@@ -40,6 +40,6 @@ jobs:
           # TODO: activate this
           # python -m poetry config pypi-token.pypi $PYPI_TOKEN
           # TODO: remove, only required for testing
-          python -m poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
           poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
           poetry publish --build
