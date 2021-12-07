@@ -29,8 +29,10 @@ jobs:
       - name: Ensure cache is healthy
         if: steps.cache.outputs.cache-hit == 'true'
         run: poetry run pip --version >/dev/null 2>&1 || rm -rf .venv
-      - name: Install Dependencies
-        run: poetry install --no-interaction
+      - name: Install dependencies and activate virtualenv
+        run: |
+          poetry install --no-interaction
+          source `poetry env info --path`/bin/activate
       - name: Publish
         run: |
           poetry-dynamic-versioning
