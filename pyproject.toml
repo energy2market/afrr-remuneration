@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "afrr-remuneration"
+version = "0.0.0"
+description = "Calculate aFRR remuneration in resolution of seconds"
+authors = ["Guido Pleßmann <guido.plessmann@e2m.energy>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/energy2market/afrr-remuneration"
+repository = "https://github.com/energy2market/afrr-remuneration"
+packages = [{ include = "afrr_remuneration" }]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pandas = "^1.3.4"
+poetry-dynamic-versioning = "^0.13.1"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+metadata = false
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry.core.masonry.api"
