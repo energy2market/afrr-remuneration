@@ -33,6 +33,7 @@ jobs:
         run: poetry install --no-interaction
       - name: Publish
         run: |
+          poetry-dynamic-versioning
           # TODO: activate this
           # python -m poetry config pypi-token.pypi $PYPI_TOKEN
           # TODO: remove, only required for testing
