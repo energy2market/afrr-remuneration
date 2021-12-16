@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Release-based publishing workflow [#1](https://github.com/energy2market/afrr-remuneration/issues/1)
+
 ### Changed
 
 ### Fixed

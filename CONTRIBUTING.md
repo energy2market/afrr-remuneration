@@ -39,3 +39,8 @@ The pull request template helps you to write a good PR message.
 Pull requests (PR) are merged after code reviews. At least one reviewer needs to accept the PR before merging.
 By [mentioning the related issue](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#referencing-issues-and-pull-requests) 
 the issue gets closed on merge automatically.
+
+# Releasing new versions
+
+A publishing workflow gets triggered when a [new release](https://github.com/energy2market/afrr-remuneration/releases) 
+is created on GitHub. The version number is read from the git tag using `poetry-dynamic-versioning`.
