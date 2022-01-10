@@ -14,9 +14,20 @@ for the aFRR remuneration to fulfill the EU target market design.
 
 ## Installation 
 
-For now the only way to install the tool is by cloning this repository. We aim to release a package on PyPi.
-All dependencies can be installed using 
-<a href="https://python-poetry.org/">poetry</a>. 
+For now, the only way to install the tool is by cloning this repository. We aim to release a package on PyPi.
+
+```bash
+git clone git@github.com:energy2market/afrr-remuneration.git
+```
+
+Then, in the directory `afrr-remuneration` (the one the source code was cloned to), execute
+
+```bash
+poetry install
+```
+
+which creates a virtual environment under `./venv` and installs required package and the package itself to this virtual environment.
+Read here for more information about <a href="https://python-poetry.org/">poetry</a>.
 
 ## Usage
 
