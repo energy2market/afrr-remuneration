@@ -1,7 +1,4 @@
-<a href="https://www.e2m.energy/">
-    <img src="https://www.e2m.energy/static/img/logos/e2m_logo.png" 
-    alt="e2m logo" title="e2m" height="50" align="right" />
-</a>
+<a href="https://www.e2m.energy/"><img src="https://user-images.githubusercontent.com/8255114/148765040-975650b6-1db2-4537-aac4-0840f28bf678.png" alt="e2m logo" title="e2m" height="50" align="right"></a>
 
 # aFRR remuneration
 
