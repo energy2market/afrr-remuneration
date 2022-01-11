@@ -6,31 +6,28 @@ A tool to calculate the aFRR remuneration for the european energy market.
 
 ## About
 
-This project is based on the 
-<a href="https://www.regelleistung.net/ext/download/Modellbeschreibung_aFRR-Abrechnung_ab_01.10.2021">
-    model description (in german from regelleistung.net)
-</a> 
-for the aFRR remuneration to fulfill the EU target market design.
+This project was initiated with the start of aFRR remuneration in temporal resolution of seconds on October 1st 2021 
+which is one further step to fulfill the EU target market design.
+The motivation for creating this python package is to provide a tool for evaluating remuneration of aFRR activation 
+events by TSOs.
+Therefore, it provides an implementation of the calculation procedure described in the 
+[model description](https://www.regelleistung.net/ext/download/Modellbeschreibung_aFRR-Abrechnung_ab_01.10.2021) as 
+python code.
+
 
 ## Installation 
 
-For now, the only way to install the tool is by cloning this repository. We aim to release a package on PyPi.
-
-```bash
-git clone git@github.com:energy2market/afrr-remuneration.git
-```
-
-Then, in the directory `afrr-remuneration` (the one the source code was cloned to), execute
-
-```bash
-poetry install
-```
-
-which creates a virtual environment under `./venv` and installs required package and the package itself to this virtual environment.
-Read here for more information about <a href="https://python-poetry.org/">poetry</a>.
+We aim to release a package on PyPi soonish. Until then, please see in 
+[development installation](#Development-installation) how to install the package from sources.
 
 ## Usage
 
+Here is some example code that shows how use functionality of this package. 
+Make sure you have a file at hand with data about setpoints and actual values of an aFRR activation event. See the 
+example files from 
+[regelleistung.net](https://www.regelleistung.net/ext/download/Beispieldateien_aFRR-Abrechnung_ab_01.10.2021) to 
+understand the required file format.
+Note, you have to make sure that data starts at the beginning of an aFRR activation event.
 
 ````python 
 from afrr_renumeration.aFRR import calc_acceptance_tolerance_band, calc_underfulfillment_and_account
@@ -60,10 +57,31 @@ underful_df = calc_underfulfillment_and_account(
 
 ## Next Steps
 
+We plan to
+
 - [ ] Add a testfile with artificial data
 - [ ] Add an example with a valid MOL
+
+Feel free to help us here!
 
 ## Contributing
 
 Contributions are highly welcome. For more details, please have a look in to 
 [contribution guidelines](https://github.com/energy2market/afrr-remuneration/blob/main/CONTRIBUTING.md).
+
+### Development installation
+
+For installing the package from sources, please clone the repository with
+
+```bash
+git clone git@github.com:energy2market/afrr-remuneration.git
+```
+
+Then, in the directory `afrr-remuneration` (the one the source code was cloned to), execute
+
+```bash
+poetry install
+```
+
+which creates a virtual environment under `./venv` and installs required package and the package itself to this virtual environment.
+Read here for more information about <a href="https://python-poetry.org/">poetry</a>.
