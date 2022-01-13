@@ -8,6 +8,10 @@ readme = "README.md"
 homepage = "https://github.com/energy2market/afrr-remuneration"
 repository = "https://github.com/energy2market/afrr-remuneration"
 packages = [{ include = "afrr_remuneration" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
 
 
 [tool.poetry.dependencies]
