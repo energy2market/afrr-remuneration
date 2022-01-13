@@ -17,8 +17,13 @@ python code.
 
 ## Installation 
 
-We aim to release a package on PyPi soonish. Until then, please see in 
-[development installation](#Development-installation) how to install the package from sources.
+Install the latest version available on [pypi.org](https://pypi.org/project/afrr-remuneration/)
+
+```bash
+pip install afrr-remuneration
+```
+
+If you are looking for a development installation, read [here](#development-installation) about how to install the package from sources.
 
 ## Usage
 
