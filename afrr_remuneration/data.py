@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional, Union, Dict
 import pandas as pd
-from aFRR import Mols
+from .aFRR import Mols
 
 TRANSLATION_POOL_VALUES = {
     "AKZ_NEG": "acceptance_pool_neg",
