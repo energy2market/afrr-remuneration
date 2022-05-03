@@ -2,7 +2,7 @@
 name = "afrr-remuneration"
 version = "0.0.0"
 description = "Calculate aFRR remuneration in resolution of seconds"
-authors = ["Guido Pleßmann <guido.plessmann@e2m.energy>"]
+authors = ["Andrew Richardson", "Florian Kühnlenz", "Jonas Weinrich", "Guido Pleßmann", "Verena Beil"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/energy2market/afrr-remuneration"
