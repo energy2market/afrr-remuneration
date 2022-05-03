@@ -144,6 +144,10 @@ def calc_acceptance_tolerance_band(
     measured: pd.Series,
     tolerance_band: float = 0.05,
     start_timeidx: int = 0,
+    
+    # optional supply of awarded capacity
+    awarded_pos_capacity: Optional[pd.Series] = None,
+    awarded_neg_capacity: Optional[pd.Series] = None,
 ) -> pd.DataFrame:
     """
     . Calculation of gradients:
@@ -179,6 +183,32 @@ def calc_acceptance_tolerance_band(
         raise ValueError(
             f"MISSING DATA! Not every second has an entry. (Difference = {diffE}). Check input!"
         )
+        
+    # awarded capacity
+    # determine required entries
+    h_1 = setpoint.index[0].ceil("H")
+    h_t = setpoint.index[-1].floor("H")
+    hours = pd.date_range(start=h_1, end=h_t, freq="H")
+    required_product_slices = hours[hours.hour % 4 == 0].shift(-4, freq="H")
+        
+    # check whether awarded capacity data is given
+    awarded_capacities = {"pos": awarded_pos_capacity, "neg": awarded_neg_capacity}
+    for i in ["pos", "neg"]:
+        if awarded_capacities[i] is None:
+            logging.info(
+                f"No data on awarded capacity ({i}) given. Inaccuracies in the determination of product change periods may occur."
+            )
+        else:
+            if required_product_slices.isin(awarded_capacities[i].index.values).all():
+                logging.info(
+                    f"Awarded capacity data ({i}) is given for all required time slices."
+                )
+            else:
+                    raise ValueError(
+                        f"Awarded capacity data ({i}) given does not cover all required time slices. Check input!"
+                    )
+                    
+        
 
     # define Series of setpoint and measurement values from a certain start index
     setpoint = round(setpoint.iloc[start_timeidx:], 3)
@@ -229,7 +259,7 @@ def calc_acceptance_tolerance_band(
         (min_301_31 - min_31_0).abs().clip(lower=1) / 270
     ).round(3)
 
-    # calculate gradient of upper Acceptance limit(t), formula 1
+    # calculate gradient of upper acceptance limit(t), formula 1
     # maximum of setpoint between t-301:t-31 (inclusive)
     df["gradient_upper_acceptance_limit"] = (
         (max_301_31 - max_31_0).abs().clip(lower=1) / 270
@@ -248,7 +278,7 @@ def calc_acceptance_tolerance_band(
         ) in setpoint, "setpoint must start before product change"
         if t_1 not in df.index:
             break
-        # check whether already 300s passed since the product change / start of a new Leistungsscheibe
+        # check whether 300 seconds have already passed since the product change / start of a new product time slice
         logging.debug((df.delta_product_change_reversal_point[t_0] == 301))
         # check whether all setpoints within the following 65 seconds are not below the current setpoint
         logging.debug(
@@ -279,6 +309,20 @@ def calc_acceptance_tolerance_band(
             )
             # setpoint reaches zero
             or (setpoint[t_0] == 0)
+            
+            # setpoint exceeds awarded capacity of previous time slice
+            # positive
+            or (
+                setpoint[t_0] > 0
+                and awarded_pos_capacity is not None
+                and setpoint[t_0] > awarded_pos_capacity[t_0.floor("H") - pd.Timedelta("4H")]
+            )            
+            # negative
+            or (
+                setpoint[t_0] < 0
+                and awarded_neg_capacity is not None
+                and setpoint[t_0] < -awarded_neg_capacity[t_0.floor("H") - pd.Timedelta("4H")]
+            )                
         ):
             logging.debug(t_1, t_0, df.delta_product_change_reversal_point.loc[t_0])
             df.loc[t_1, "delta_product_change_reversal_point"] = (
@@ -367,14 +411,14 @@ def _acceptance_tolerance_band(
         # if t_productchange > t > t_reversalpoint
         upper_acceptance_limit[i] = (
             max_upper_acceptance_limit
-            if delta_product_change_reversal_point[i] == 0
+            if delta_product_change_reversal_point[i] == 0 or delta_product_change_reversal_point[i + 1] == 0
             # else (t_productchange <= t <= t_reversalpoint)
             else max(max_upper_acceptance_limit, 0)
         )
         # calculate lower acceptance limit (formula 4)
         lower_acceptance_limit[i] = (
             min_lower_acceptance_limit
-            if delta_product_change_reversal_point[i] == 0
+            if delta_product_change_reversal_point[i] == 0 or delta_product_change_reversal_point[i + 1] == 0
             else min(min_lower_acceptance_limit, 0)
         )
 
@@ -424,7 +468,7 @@ def calc_underfulfillment_and_account(
             "allocable_underfulfill_pos":"zue_pos",
             "allocable_underfulfill_neg":"zue_neg",
             "allocable_underfulfill",
-            "not_allocable_underfulfill": "zue_value_nicht_zuteilbar",
+            "not_allocable_underfulfill": "ue_value_nicht_zuteilbar",
             "overfulfill_pos":"ueb_pos",
             "overfulfill_neg":"ueb_neg",
             "cutoff":"Kappung"]

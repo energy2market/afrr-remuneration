@@ -35,19 +35,19 @@ understand the required file format.
 Note, you have to make sure that data starts at the beginning of an aFRR activation event.
 
 ````python 
-from afrr_renumeration.aFRR import calc_acceptance_tolerance_band, calc_underfulfillment_and_account
-from afrr_renumeration.data import parse_tso_data
+from afrr_remuneration.aFRR import calc_acceptance_tolerance_band, calc_underfulfillment_and_account
+from afrr_remuneration.data import parse_tso_data
 
 # load the setpoint and the measured value for example by reading the tso data
 file = "20211231_aFRR_XXXXXXXXXXXXXXXX_XXX_PT1S_043_V01.csv"
-tso_df = parse_tso_data(file)
+tso_df = parse_tso_data(file)[0]
 
 # calculate the tolerance band 
 band_df = calc_acceptance_tolerance_band(
     setpoint=tso_df["setpoint"], measured=tso_df["measured"]
     )
 
-# calculate acceptance values and other relevant serieses like the under-/overfulfillment 
+# calculate acceptance values and other relevant series like the under-/overfulfillment 
 underful_df = calc_underfulfillment_and_account(
     setpoint=band_df.setpoint,
     measured=band_df.measured,
